@@ -19,6 +19,7 @@ on:
           - unifreq/linux-5.10.y-rk35xx
           - codesnas/linux-5.10.y-rk35xx
           - armbian/linux-rockchip@rk-6.1-rkr3
+          - armbian/linux-rockchip@rk-6.1-rkr4.1
       kernel_version:
         description: "Select kernel version"
         required: false
@@ -78,7 +79,7 @@ on:
           - -summer-growing
           - -autumn-harvesting
           - -winter-storing
-          - -yourname
+          - -yeling
       kernel_config:
         description: "Set the path of kernel .config"
         required: false
