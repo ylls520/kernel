@@ -1,0 +1,43 @@
+#==========================================================================
+# Description: Compile release rk3588 kernel
+# Copyright (C) 2023 https://github.com/unifreq/linux-5.10.y-rk35xx
+# Copyright (C) 2023 https://github.com/ophub/kernel
+#==========================================================================
+
+name: Compile release rk3588 kernel
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+env:
+  TZ: America/New_York
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'armbian/linux-rockchip'
+          ref: 'rk-6.1-rkr4.1'
+          path: 'linux-rockchip'
+      - name: tar
+        # 执行shell命令
+          run: |
+            cd linux-rockchip/
+            tar -zcvf wifi.tar.gz drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd
+      - name: Upload Kernel to Release
+        uses: ncipollo/release-action@main
+        with:
+          tag: kernel_rk3588
+          artifacts: wifi.tar.gz
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            - The kernel can be used to compile Armbian and OpenWrt.
+            - The kernel source code comes from: ${{ inputs.kernel_source }}
+            - The kernel compilation toolchain: ${{ inputs.kernel_toolchain }}
+            - This is a dedicated kernel for `Rockchip rk3588` and is not compatible with other series.
+            - 这是 `Rockchip rk3588` 专用内核，和其他系列不通用。
