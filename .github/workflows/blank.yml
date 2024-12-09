@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: wifi.tar.gz
+          path: ./linux-rockchip/wifi.tar.gz
           if-no-files-found: error
