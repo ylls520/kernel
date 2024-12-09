@@ -30,18 +30,12 @@ jobs:
           path: 'linux-rockchip'
       - name: tar
         run: |
+          pwd
           cd linux-rockchip/
           tar -zcvf wifi.tar.gz drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd
-      - name: Upload Kernel to Release
-        uses: ncipollo/release-action@main
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
         with:
-          tag: kernel_rk3588
-          artifacts: wifi.tar.gz
-          allowUpdates: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            - The kernel can be used to compile Armbian and OpenWrt.
-            - The kernel source code comes from: ${{ inputs.kernel_source }}
-            - The kernel compilation toolchain: ${{ inputs.kernel_toolchain }}
-            - This is a dedicated kernel for `Rockchip rk3588` and is not compatible with other series.
-            - 这是 `Rockchip rk3588` 专用内核，和其他系列不通用。
+          name: my-artifact
+          path: wifi.tar.gz
+          if-no-files-found: error
